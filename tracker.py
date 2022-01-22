@@ -27,14 +27,14 @@ def extract(URL, sheet, row):
     sheet.cell(row= row, column= labels.Date.value).value = today.strftime("%B %d")
 
     # On the first iteration of parsing for the game, we will get the title
-    if (sheet.cell(row= row, column= labels.Title.value).value != ""):
-        try:
-            title= soup.find("div", attrs={"id" : 'appHubAppName', "class" : "apphub_AppName"})
-            title= title.string.strip()
-        except AttributeError:
-            title = "NA"
 
-        sheet.cell(row= row, column= labels.Title.value).value = title
+    try:
+        title= soup.find("div", attrs={"id" : 'appHubAppName', "class" : "apphub_AppName"})
+        title= title.string.strip()
+    except AttributeError:
+        title = "NA"
+
+    sheet.cell(row= row, column= labels.Title.value).value = title
 
     # This is to find the price of the item
     try:
@@ -61,8 +61,8 @@ def extract(URL, sheet, row):
                 disc_price= "NA"
         
 
-    if (sheet.cell(row= row, column = labels.Price.value).value != ""):
-        sheet.cell(row= row, column = labels.Price.value).value = orig_price
+
+    sheet.cell(row= row, column = labels.Price.value).value = orig_price
     
     sheet.cell(row= row, column = labels.Sale.value).value = disc_price
 
