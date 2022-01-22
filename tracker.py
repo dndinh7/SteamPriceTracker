@@ -6,7 +6,7 @@ import os
 import openpyxl
 import enum
 
-# These are the row labels in the excel 
+# These are the row labels in the excel
 class labels(enum.Enum):
     Date= 1
     Title= 2
@@ -26,7 +26,7 @@ def extract(URL, sheet, row):
     # This will set the date at which information was updated
     sheet.cell(row= row, column= labels.Date.value).value = today.strftime("%B %d")
 
-    # On the first iteration of parsing for the game, we will get the title
+    # Trying to get the title of the game
 
     try:
         title= soup.find("div", attrs={"id" : 'appHubAppName', "class" : "apphub_AppName"})
@@ -59,11 +59,11 @@ def extract(URL, sheet, row):
             except:
                 orig_price= "NA"
                 disc_price= "NA"
-        
+
 
 
     sheet.cell(row= row, column = labels.Price.value).value = orig_price
-    
+
     sheet.cell(row= row, column = labels.Sale.value).value = disc_price
 
 
@@ -84,4 +84,3 @@ if __name__ == "__main__":
         extract(cur_cell.value, sheet, i)
 
     wb.save(loc_wb)
-
