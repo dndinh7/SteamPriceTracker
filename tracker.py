@@ -75,12 +75,28 @@ if __name__ == "__main__":
     cur_path= os.path.dirname(__file__)
 
     loc_wb= os.path.join(cur_path, "games.xlsx")
+    try:
+        wb = openpyxl.load_workbook(loc_wb)
+    except FileNotFoundError:
+        wb = openpyxl.Workbook()
 
-    wb = openpyxl.load_workbook(loc_wb)
     sheet = wb.active
+
+
+    for label in (labels):
+        cur_cell= sheet.cell(row= 1, column = label.value)
+        if (cur_cell.value != "None"):
+            cur_cell.value = label.name
+
 
     for i in range(2, sheet.max_row+1):
         cur_cell = sheet.cell(row = i, column = labels.URL.value)
-        extract(cur_cell.value, sheet, i)
+        if (not (cur_cell.value == "None" or cur_cell.value == None)):
+            extract(cur_cell.value, sheet, i)
+
+    sheet.column_dimensions["B"].width= 50
+
+
+
 
     wb.save(loc_wb)
